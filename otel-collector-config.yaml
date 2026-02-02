@@ -3,6 +3,13 @@ receivers:
     protocols:
       grpc:
       http:
+        cors:
+          allowed_origins:
+            - "https://fuelpass-frontend-react-stagging.up.railway.app"
+          allowed_headers:
+            - "Content-Type"
+            - "grpc-encoding"
+          max_age: 7200
 
 exporters:
   otlp/honeycomb:
