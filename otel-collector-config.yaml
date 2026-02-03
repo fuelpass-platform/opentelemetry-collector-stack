@@ -12,17 +12,16 @@ receivers:
           max_age: 7200
 
 exporters:
-  otlp/default:
+  otlphttp/default:
     endpoint: "${HONEYCOMB_ENDPOINT}"
     headers:
-      "x-honeycomb-team": "${HONEYCOMB_API_KEY}"
       "Authorization": "${GENERAL_AUTH_TOKEN}"
 
   debug:
     verbosity: basic
 
   logging:
-    loglevel: info
+    verbosity: basic
 
 processors:
   batch:
@@ -40,8 +39,8 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp/default, logging, debug]
+      exporters: [otlphttp/default, logging, debug]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp/default, logging, debug]
+      exporters: [otlphttp/default, logging, debug]
