@@ -13,9 +13,10 @@ receivers:
 
 exporters:
   otlp/default:
-    endpoint: "${HONEYCOMB_ENDPOINT:-api.honeycomb.io:443}"
+    endpoint: "${DEFAULT_ENDPOINT:-api.honeycomb.io:443}"
     headers:
       "x-honeycomb-team": "${HONEYCOMB_API_KEY}"
+      "Authorization": "${GENERAL_AUTH_TOKEN}"
 
   debug:
     verbosity: basic
