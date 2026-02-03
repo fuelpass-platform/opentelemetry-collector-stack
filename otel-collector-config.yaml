@@ -15,7 +15,9 @@ exporters:
   otlphttp/default:
     endpoint: "${HONEYCOMB_ENDPOINT}"
     headers:
-      "Authorization": "${GENERAL_AUTH_TOKEN}"
+      "signoz-ingestion-key": "${GENERAL_AUTH_TOKEN}"
+    tls:
+      insecure: false
 
   debug:
     verbosity: basic
