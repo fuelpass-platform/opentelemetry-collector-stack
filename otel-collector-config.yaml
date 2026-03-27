@@ -5,8 +5,7 @@ receivers:
       http:
         cors:
           allowed_origins:
-            - "https://fuelpass-frontend-react-staging.up.railway.app"
-            - "https://fuelpass-frontend-react-dev.up.railway.app"
+            - "${ALLOWED_ORIGIN}"
           allowed_headers:
             - "Content-Type"
             - "grpc-encoding"
