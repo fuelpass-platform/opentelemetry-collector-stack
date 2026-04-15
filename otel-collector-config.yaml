@@ -18,7 +18,7 @@ exporters:
       "signoz-ingestion-key": "${GENERAL_AUTH_TOKEN}"
     tls:
       insecure: false
-  otlp/jaeger:
+  otlphttp/jaeger:
     endpoint: "${JAEGER_ENDPOINT}"
     tls:
       insecure: true
@@ -43,7 +43,7 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlphttp/default, otlp/jaeger]
+      exporters: [otlphttp/default, otlphttp/jaeger]
     metrics:
       receivers: [otlp]
       processors: [batch]
