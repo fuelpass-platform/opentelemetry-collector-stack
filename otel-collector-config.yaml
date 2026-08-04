@@ -48,3 +48,7 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlphttp/default]
+    logs:                          # ← add
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlphttp/default]
