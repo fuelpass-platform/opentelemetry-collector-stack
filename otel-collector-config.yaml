@@ -6,7 +6,6 @@ receivers:
         cors:
           allowed_origins:
             - "${ALLOWED_ORIGIN}"
-            - "${ALLOWED_ORIGIN_2}"
           allowed_headers:
             - "Content-Type"
             - "grpc-encoding"
