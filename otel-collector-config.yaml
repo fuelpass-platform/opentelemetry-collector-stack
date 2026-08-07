@@ -10,7 +10,6 @@ receivers:
             - "Content-Type"
             - "grpc-encoding"
           max_age: 7200
-
 exporters:
   otlphttp/default:
     endpoint: "${HONEYCOMB_ENDPOINT}"
@@ -18,37 +17,30 @@ exporters:
       "signoz-ingestion-key": "${GENERAL_AUTH_TOKEN}"
     tls:
       insecure: false
-  otlphttp/jaeger:
-    endpoint: "${JAEGER_ENDPOINT}"
-    tls:
-      insecure: true
   debug:
     verbosity: basic
   logging:
     verbosity: basic
-
 processors:
   batch:
-
 extensions:
   health_check:
   pprof:
     endpoint: :1888
   zpages:
     endpoint: :55679
-
 service:
   extensions: [pprof, zpages, health_check]
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlphttp/default, otlphttp/jaeger]
+      exporters: [otlphttp/default]
     metrics:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlphttp/default]
-    logs:                          # ← add
+    logs:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlphttp/default]
