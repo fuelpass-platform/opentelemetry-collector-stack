@@ -10,6 +10,13 @@ receivers:
             - "Content-Type"
             - "grpc-encoding"
           max_age: 7200
+  # FD-1555: probes Flagsmith's public URL from outside Railway's private network, the way
+  # clients reach it. The production outage was that URL failing while the services were up.
+  httpcheck/flagsmith:
+    targets:
+      - endpoint: "${FLAGSMITH_HEALTH_URL}"
+        method: GET
+    collection_interval: 60s
 exporters:
   otlphttp/default:
     endpoint: "${HONEYCOMB_ENDPOINT}"
@@ -23,6 +30,21 @@ exporters:
     verbosity: basic
 processors:
   batch:
+  # FD-1555: the same journey and criticality the services report, so the alerts match.
+  resource/flagsmith:
+    attributes:
+      - key: service.name
+        value: flagsmith
+        action: upsert
+      - key: journey.name
+        value: feature_flags
+        action: upsert
+      - key: journey.criticality
+        value: business-critical
+        action: upsert
+      - key: deployment.environment
+        value: "${DEPLOYMENT_ENVIRONMENT}"
+        action: upsert
 extensions:
   health_check:
   pprof:
@@ -43,4 +65,8 @@ service:
     logs:
       receivers: [otlp]
       processors: [batch]
+      exporters: [otlphttp/default]
+    metrics/flagsmith:
+      receivers: [httpcheck/flagsmith]
+      processors: [resource/flagsmith, batch]
       exporters: [otlphttp/default]

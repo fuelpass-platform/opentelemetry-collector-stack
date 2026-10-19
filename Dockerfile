@@ -1,4 +1,5 @@
-FROM otel/opentelemetry-collector:0.97.0
+# contrib, not core: the Flagsmith health check needs its httpcheck receiver (FD-1555).
+FROM otel/opentelemetry-collector-contrib:0.97.0
 
 COPY otel-collector-config.yaml /etc/otel-collector-config.yaml
 
